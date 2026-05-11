@@ -22,8 +22,7 @@ import {
   AlertDialogTrigger,
 } from "@/components/ui/alert-dialog";
 import { Flame, SkipForward } from "lucide-react";
-import { ResultsBlock } from "./_authenticated/games.$sessionId";
-import { LEVEL_META, levelFromScore } from "@/lib/scoring";
+import { toast } from "sonner";
 import { toast } from "sonner";
 
 const search = z.object({
