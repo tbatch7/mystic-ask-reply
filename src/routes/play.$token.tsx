@@ -216,6 +216,7 @@ function Questions({
         <div className="mt-1.5 h-1.5 overflow-hidden rounded-full bg-muted">
           <div className="h-full rounded-full transition-all" style={{ width: `${(touched / total) * 100}%`, background: "var(--gradient-hot)" }} />
         </div>
+        <PartnerStatus touched={touched} total={total} />
       </div>
 
       {CATEGORIES.map((c) => {
