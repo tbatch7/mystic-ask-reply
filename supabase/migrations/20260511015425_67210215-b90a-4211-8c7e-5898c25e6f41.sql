@@ -1,0 +1,1 @@
+ALTER TABLE public.answers ADD COLUMN IF NOT EXISTS text_answer text;

@@ -42,12 +42,13 @@ export const getSessionByToken = createServerFn({ method: "POST" })
 const submitSchema = z.object({
   token: tokenSchema,
   responderName: z.string().trim().max(60).optional().nullable(),
-  answers: z
+    answers: z
     .array(
       z.object({
         question_key: z.string().min(1).max(80),
         value: z.number().int().min(0).max(100),
         skipped: z.boolean(),
+        text_answer: z.string().trim().max(2000).optional().nullable(),
       })
     )
     .min(1)
@@ -81,6 +82,7 @@ export const submitAnswers = createServerFn({ method: "POST" })
       category: keyToCategory.get(a.question_key) ?? "relationship_secrets",
       value: a.skipped ? 0 : a.value,
       skipped: a.skipped,
+      text_answer: a.skipped ? null : (a.text_answer?.trim() || null),
     }));
 
     const { error: aErr } = await supabaseAdmin.from("answers").insert(rows);
@@ -149,7 +151,7 @@ export const getMySession = createServerFn({ method: "POST" })
     if (!session) throw new Error("Game not found.");
     const { data: answers, error: aErr } = await supabaseAdmin
       .from("answers")
-      .select("question_key, category, value, skipped")
+      .select("question_key, category, value, skipped, text_answer")
       .eq("session_id", data.id);
     if (aErr) throw aErr;
     return { session, answers: answers ?? [] };
