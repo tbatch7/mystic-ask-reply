@@ -311,22 +311,72 @@ function Questions({
   );
 }
 
-function DoneScreen({ score, answers, isTest }: { score: number; answers: { question_key: string; category: string; value: number; skipped: boolean }[]; isTest: boolean }) {
+function PartnerStatus({ touched, total }: { touched: number; total: number }) {
+  // Fake "partner is also answering" — their progress trails yours by 1-3
+  const partnerProgress = Math.max(0, Math.min(total, touched - 1 - (touched % 2)));
+  const pct = Math.round((partnerProgress / total) * 100);
+  return (
+    <div className="mt-2 flex items-center justify-between gap-2 text-[11px] text-muted-foreground">
+      <div className="flex items-center gap-1.5">
+        <span className="relative inline-flex h-2 w-2">
+          <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-primary opacity-60" />
+          <span className="relative inline-flex h-2 w-2 rounded-full bg-primary" />
+        </span>
+        <span>Your partner is answering · {partnerProgress}/{total}</span>
+      </div>
+      <span>{pct}%</span>
+    </div>
+  );
+}
+
+function DoneScreen({ score, answers, isTest }: { score: number; answers: { question_key: string; category: string; value: number; skipped: boolean; text_answer?: string | null }[]; isTest: boolean }) {
   const level = levelFromScore(score);
   const meta = LEVEL_META[level];
+  // Fake match count — deterministic-ish per session, between 35-75% of answered
+  const answeredCount = answers.filter((a) => !a.skipped).length;
+  const matches = useMemo(() => {
+    const min = Math.floor(answeredCount * 0.35);
+    const max = Math.ceil(answeredCount * 0.75);
+    return Math.max(min, Math.min(max, min + Math.floor(Math.random() * (max - min + 1))));
+  }, [answeredCount]);
+  const matchPct = answeredCount ? Math.round((matches / answeredCount) * 100) : 0;
+  const verdict =
+    matchPct >= 70 ? "They know you scarily well 🔥" :
+    matchPct >= 50 ? "Not bad — they've been paying attention 💕" :
+    matchPct >= 30 ? "There's a lot they don't know yet 👀" :
+    "They barely know the real you 🫣";
+
   return (
     <div className="rounded-2xl border border-border bg-card/60 p-6">
       <div className="text-center">
-        <div className="text-7xl">{meta.emoji}</div>
-        <h1 className="mt-3 font-serif text-4xl">{level}</h1>
-        <div className="mt-1 font-serif text-3xl text-primary">{score}%</div>
-        <p className="mx-auto mt-2 max-w-sm text-sm text-muted-foreground">{meta.tagline}</p>
+        <div className="text-6xl">💘</div>
+        <h1 className="mt-3 font-serif text-3xl">Your partner guessed</h1>
+        <div className="mt-2 font-serif text-6xl text-primary">{matches} / {answeredCount}</div>
+        <div className="mt-1 text-sm text-muted-foreground">correct ({matchPct}%)</div>
+        <p className="mx-auto mt-3 max-w-sm text-sm">{verdict}</p>
         {isTest && <p className="mt-3 text-xs text-gold">Redirecting you to the sender results view…</p>}
       </div>
+
+      <div className="mt-6">
+        <div className="mb-1 flex justify-between text-xs text-muted-foreground">
+          <span>Match rate</span>
+          <span>{matchPct}%</span>
+        </div>
+        <div className="h-3 overflow-hidden rounded-full bg-muted">
+          <div className="h-full rounded-full transition-all" style={{ width: `${matchPct}%`, background: "var(--gradient-hot)" }} />
+        </div>
+      </div>
+
+      <div className="mt-6 border-t border-border/60 pt-6">
+        <div className="text-center text-xs uppercase tracking-wider text-muted-foreground">Your openness</div>
+        <div className="mt-2 text-center">
+          <span className="text-3xl">{meta.emoji}</span>
+          <span className="ml-2 font-serif text-2xl">{level} · {score}%</span>
+        </div>
+        <p className="mt-1 text-center text-xs text-muted-foreground">{meta.tagline}</p>
+      </div>
+
       <ResultsBlock score={score} answers={answers} hideHeading />
-      <p className="mt-6 text-center text-xs text-muted-foreground">
-        Your answers have been delivered. You can close this page now.
-      </p>
     </div>
   );
 }
