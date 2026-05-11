@@ -63,15 +63,16 @@ function PlayPage() {
         data: {
           token,
           responderName: name || null,
-          answers: QUESTIONS.map((q) => ({ question_key: q.key, value: answers[q.key].value, skipped: answers[q.key].skipped })),
+          answers: QUESTIONS.map((q) => ({ question_key: q.key, value: answers[q.key].value, skipped: answers[q.key].skipped, text_answer: answers[q.key].text })),
         },
       }),
     onSuccess: (res) => {
       const submittedAnswers = QUESTIONS.map((q) => ({
         question_key: q.key,
-        category: q.category,
+        category: q.category as string,
         value: answers[q.key].value,
         skipped: answers[q.key].skipped,
+        text_answer: answers[q.key].text?.trim() || null,
       }));
       setSubmittedScore({ score: res.score, answers: submittedAnswers });
       setStep("done");
