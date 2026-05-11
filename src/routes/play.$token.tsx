@@ -50,12 +50,12 @@ function PlayPage() {
 
   const [step, setStep] = useState<"intro" | "questions" | "done">("intro");
   const [name, setName] = useState("");
-  const [answers, setAnswers] = useState<Record<string, { value: number; skipped: boolean }>>(() => {
-    const o: Record<string, { value: number; skipped: boolean }> = {};
-    for (const q of QUESTIONS) o[q.key] = { value: 50, skipped: false };
+  const [answers, setAnswers] = useState<Record<string, { value: number; skipped: boolean; text: string }>>(() => {
+    const o: Record<string, { value: number; skipped: boolean; text: string }> = {};
+    for (const q of QUESTIONS) o[q.key] = { value: 50, skipped: false, text: "" };
     return o;
   });
-  const [submittedScore, setSubmittedScore] = useState<{ score: number; answers: typeof QUESTIONS extends never ? never : { question_key: string; category: string; value: number; skipped: boolean }[] } | null>(null);
+  const [submittedScore, setSubmittedScore] = useState<{ score: number; answers: { question_key: string; category: string; value: number; skipped: boolean; text_answer: string | null }[] } | null>(null);
 
   const submitMut = useMutation({
     mutationFn: () =>
