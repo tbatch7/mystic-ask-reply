@@ -102,8 +102,7 @@ export const SLIDER_STOPS = [
 ] as const;
 
 export function labelForValue(v: number): string {
-  // pick closest stop
-  let best = SLIDER_STOPS[0];
+  let best: { value: number; label: string } = SLIDER_STOPS[0];
   let bestDist = Math.abs(v - best.value);
   for (const s of SLIDER_STOPS) {
     const d = Math.abs(v - s.value);
