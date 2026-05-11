@@ -21,7 +21,7 @@ import {
   AlertDialogTitle,
   AlertDialogTrigger,
 } from "@/components/ui/alert-dialog";
-import { AlertTriangle, Flame, SkipForward } from "lucide-react";
+import { Flame, SkipForward } from "lucide-react";
 import { ResultsBlock } from "./_authenticated/games.$sessionId";
 import { LEVEL_META, levelFromScore } from "@/lib/scoring";
 import { toast } from "sonner";
