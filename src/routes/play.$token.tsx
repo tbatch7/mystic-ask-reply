@@ -113,10 +113,10 @@ function PlayPage() {
           <span className="font-serif text-lg">SecretSpice</span>
         </div>
 
-        <div className="warning-banner mb-6 flex items-start gap-2 rounded-xl px-4 py-3 text-sm">
-          <AlertTriangle className="mt-0.5 h-4 w-4 shrink-0" />
+        <div className="mb-6 flex items-start gap-2 rounded-xl border border-primary/30 bg-primary/5 px-4 py-3 text-sm">
+          <Flame className="mt-0.5 h-4 w-4 shrink-0 text-primary" />
           <span>
-            Your answers will be shared with the person who sent you this link. Only respond if you're okay with that.
+            Your partner is answering the same questions right now — they're <strong>guessing</strong> what you'll say while you give the truth. At the end you'll see how many you matched on.
           </span>
         </div>
 
