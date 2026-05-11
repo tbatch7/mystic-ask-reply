@@ -329,10 +329,8 @@ function PartnerStatus({ touched, total }: { touched: number; total: number }) {
   );
 }
 
-function DoneScreen({ score, answers, isTest }: { score: number; answers: { question_key: string; category: string; value: number; skipped: boolean; text_answer?: string | null }[]; isTest: boolean }) {
-  const level = levelFromScore(score);
-  const meta = LEVEL_META[level];
-  // Fake match count — deterministic-ish per session, between 35-75% of answered
+function DoneScreen({ answers, isTest }: { score: number; answers: { question_key: string; category: string; value: number; skipped: boolean; text_answer?: string | null }[]; isTest: boolean }) {
+  // Fake match count — between 35-75% of answered
   const answeredCount = answers.filter((a) => !a.skipped).length;
   const matches = useMemo(() => {
     const min = Math.floor(answeredCount * 0.35);
@@ -367,16 +365,9 @@ function DoneScreen({ score, answers, isTest }: { score: number; answers: { ques
         </div>
       </div>
 
-      <div className="mt-6 border-t border-border/60 pt-6">
-        <div className="text-center text-xs uppercase tracking-wider text-muted-foreground">Your openness</div>
-        <div className="mt-2 text-center">
-          <span className="text-3xl">{meta.emoji}</span>
-          <span className="ml-2 font-serif text-2xl">{level} · {score}%</span>
-        </div>
-        <p className="mt-1 text-center text-xs text-muted-foreground">{meta.tagline}</p>
-      </div>
-
-      <ResultsBlock score={score} answers={answers} hideHeading />
+      <p className="mt-8 text-center text-xs text-muted-foreground">
+        Thanks for playing — you can close this page now.
+      </p>
     </div>
   );
 }
