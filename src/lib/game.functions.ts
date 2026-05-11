@@ -82,6 +82,7 @@ export const submitAnswers = createServerFn({ method: "POST" })
       category: keyToCategory.get(a.question_key) ?? "relationship_secrets",
       value: a.skipped ? 0 : a.value,
       skipped: a.skipped,
+      text_answer: a.skipped ? null : (a.text_answer?.trim() || null),
     }));
 
     const { error: aErr } = await supabaseAdmin.from("answers").insert(rows);
