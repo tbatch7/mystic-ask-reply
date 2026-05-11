@@ -22,6 +22,7 @@ export type Database = {
           question_key: string
           session_id: string
           skipped: boolean
+          text_answer: string | null
           value: number
         }
         Insert: {
@@ -31,6 +32,7 @@ export type Database = {
           question_key: string
           session_id: string
           skipped?: boolean
+          text_answer?: string | null
           value?: number
         }
         Update: {
@@ -40,6 +42,7 @@ export type Database = {
           question_key?: string
           session_id?: string
           skipped?: boolean
+          text_answer?: string | null
           value?: number
         }
         Relationships: [
