@@ -292,9 +292,9 @@ function Questions({
             </AlertDialogTrigger>
             <AlertDialogContent>
               <AlertDialogHeader>
-                <AlertDialogTitle>Send your answers?</AlertDialogTitle>
+                <AlertDialogTitle>Lock in your answers?</AlertDialogTitle>
                 <AlertDialogDescription>
-                  These answers will be visible to the person who sent you this link. Once submitted, you can't change them.
+                  Once you submit, you'll see how many of your partner's guesses matched what you actually said.
                 </AlertDialogDescription>
               </AlertDialogHeader>
               <AlertDialogFooter>
