@@ -160,17 +160,19 @@ function ErrorScreen({ msg }: { msg: string }) {
 function Intro({ name, setName, onStart }: { name: string; setName: (s: string) => void; onStart: () => void }) {
   return (
     <div className="rounded-2xl border border-border bg-card/60 p-6 text-center">
-      <h1 className="font-serif text-3xl">Someone wants to know the truth.</h1>
+      <h1 className="font-serif text-3xl">How well do they really know you?</h1>
       <p className="mx-auto mt-3 max-w-md text-sm text-muted-foreground">
-        You'll see {QUESTIONS.length} personal questions. For each one, drag the slider to show how willing you'd be
-        to actually tell them. Skip any you don't want to answer.
+        You'll answer {QUESTIONS.length} personal questions <strong>honestly</strong>. At the same time, your partner is going through the same list trying to <strong>guess</strong> what you'll say. Skip any you don't want to answer.
+      </p>
+      <p className="mx-auto mt-2 max-w-md text-xs text-muted-foreground">
+        At the end you'll find out how many guesses they got right.
       </p>
       <div className="mx-auto mt-5 max-w-xs text-left">
         <Label htmlFor="name">First name (optional)</Label>
         <Input id="name" value={name} maxLength={60} onChange={(e) => setName(e.target.value)} placeholder="So they know it's you" />
       </div>
       <Button onClick={onStart} className="btn-primary-glow mt-6 h-11 px-8 text-base">
-        I'm ready
+        Start answering
       </Button>
     </div>
   );
