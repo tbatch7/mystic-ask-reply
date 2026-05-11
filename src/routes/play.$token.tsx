@@ -183,23 +183,24 @@ function Questions({
   submitting,
 }: {
   ordered: typeof QUESTIONS;
-  answers: Record<string, { value: number; skipped: boolean }>;
-  setAnswers: React.Dispatch<React.SetStateAction<Record<string, { value: number; skipped: boolean }>>>;
+  answers: Record<string, { value: number; skipped: boolean; text: string }>;
+  setAnswers: React.Dispatch<React.SetStateAction<Record<string, { value: number; skipped: boolean; text: string }>>>;
   onSubmit: () => void;
   submitting: boolean;
 }) {
-  const [currentIdx, setCurrentIdx] = useState(0);
   const total = ordered.length;
-  const answeredOrSkippedCount = Object.values(answers).filter((a) => a.skipped || a.value !== 50).length;
 
   const setVal = (key: string, value: number) => {
-    setAnswers((p) => ({ ...p, [key]: { value, skipped: false } }));
+    setAnswers((p) => ({ ...p, [key]: { ...p[key], value, skipped: false } }));
+  };
+  const setText = (key: string, text: string) => {
+    setAnswers((p) => ({ ...p, [key]: { ...p[key], text, skipped: false } }));
   };
   const setSkipped = (key: string) => {
-    setAnswers((p) => ({ ...p, [key]: { value: 0, skipped: true } }));
+    setAnswers((p) => ({ ...p, [key]: { value: 0, skipped: true, text: "" } }));
   };
 
-  const touched = Object.entries(answers).filter(([, a]) => a.skipped || a.value !== 50).length;
+  const touched = Object.entries(answers).filter(([, a]) => a.skipped || a.value !== 50 || a.text.trim().length > 0).length;
   const displayCurrent = Math.min(touched + 1, total);
 
   return (
@@ -229,7 +230,20 @@ function Questions({
                 return (
                   <div key={q.key} className="rounded-xl border border-border bg-card/60 p-4">
                     <div className={`text-base ${a.skipped ? "opacity-60 line-through" : ""}`}>{q.text}</div>
+                    <div className="mt-3">
+                      <Label htmlFor={`text-${q.key}`} className="text-xs text-muted-foreground">Your answer (optional)</Label>
+                      <Textarea
+                        id={`text-${q.key}`}
+                        value={a.text}
+                        onChange={(e) => setText(q.key, e.target.value)}
+                        disabled={a.skipped}
+                        maxLength={2000}
+                        placeholder="Type your honest answer here…"
+                        className="mt-1 min-h-[72px]"
+                      />
+                    </div>
                     <div className="mt-4">
+                      <div className="mb-1 text-xs text-muted-foreground">How willing are you to share this?</div>
                       <Slider
                         className="slider-hot"
                         value={[a.skipped ? 0 : a.value]}
