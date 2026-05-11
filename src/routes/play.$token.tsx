@@ -23,7 +23,6 @@ import {
 } from "@/components/ui/alert-dialog";
 import { Flame, SkipForward } from "lucide-react";
 import { toast } from "sonner";
-import { toast } from "sonner";
 
 const search = z.object({
   test: z.coerce.number().optional(),
