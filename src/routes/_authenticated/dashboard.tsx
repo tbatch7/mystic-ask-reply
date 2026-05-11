@@ -73,8 +73,9 @@ function Dashboard() {
     },
   });
 
-  const real = sessions.data?.filter((s) => !s.is_test) ?? [];
-  const tests = sessions.data?.filter((s) => s.is_test) ?? [];
+  const allSessions = Array.isArray(sessions.data) ? sessions.data : [];
+  const real = allSessions.filter((s) => !s.is_test);
+  const tests = allSessions.filter((s) => s.is_test);
 
   return (
     <div className="mx-auto max-w-5xl px-5 py-8">
