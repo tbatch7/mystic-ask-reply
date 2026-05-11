@@ -42,12 +42,13 @@ export const getSessionByToken = createServerFn({ method: "POST" })
 const submitSchema = z.object({
   token: tokenSchema,
   responderName: z.string().trim().max(60).optional().nullable(),
-  answers: z
+    answers: z
     .array(
       z.object({
         question_key: z.string().min(1).max(80),
         value: z.number().int().min(0).max(100),
         skipped: z.boolean(),
+        text_answer: z.string().trim().max(2000).optional().nullable(),
       })
     )
     .min(1)
