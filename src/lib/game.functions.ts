@@ -151,7 +151,7 @@ export const getMySession = createServerFn({ method: "POST" })
     if (!session) throw new Error("Game not found.");
     const { data: answers, error: aErr } = await supabaseAdmin
       .from("answers")
-      .select("question_key, category, value, skipped")
+      .select("question_key, category, value, skipped, text_answer")
       .eq("session_id", data.id);
     if (aErr) throw aErr;
     return { session, answers: answers ?? [] };
