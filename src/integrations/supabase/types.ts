@@ -14,7 +14,101 @@ export type Database = {
   }
   public: {
     Tables: {
-      [_ in never]: never
+      answers: {
+        Row: {
+          category: string
+          created_at: string
+          id: string
+          question_key: string
+          session_id: string
+          skipped: boolean
+          value: number
+        }
+        Insert: {
+          category: string
+          created_at?: string
+          id?: string
+          question_key: string
+          session_id: string
+          skipped?: boolean
+          value?: number
+        }
+        Update: {
+          category?: string
+          created_at?: string
+          id?: string
+          question_key?: string
+          session_id?: string
+          skipped?: boolean
+          value?: number
+        }
+        Relationships: [
+          {
+            foreignKeyName: "answers_session_id_fkey"
+            columns: ["session_id"]
+            isOneToOne: false
+            referencedRelation: "sessions"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      profiles: {
+        Row: {
+          created_at: string
+          display_name: string | null
+          id: string
+        }
+        Insert: {
+          created_at?: string
+          display_name?: string | null
+          id: string
+        }
+        Update: {
+          created_at?: string
+          display_name?: string | null
+          id?: string
+        }
+        Relationships: []
+      }
+      sessions: {
+        Row: {
+          completed_at: string | null
+          created_at: string
+          id: string
+          is_test: boolean
+          openness_score: number | null
+          responder_name: string | null
+          secrets_level: string | null
+          sender_id: string
+          status: string
+          token: string
+        }
+        Insert: {
+          completed_at?: string | null
+          created_at?: string
+          id?: string
+          is_test?: boolean
+          openness_score?: number | null
+          responder_name?: string | null
+          secrets_level?: string | null
+          sender_id: string
+          status?: string
+          token: string
+        }
+        Update: {
+          completed_at?: string | null
+          created_at?: string
+          id?: string
+          is_test?: boolean
+          openness_score?: number | null
+          responder_name?: string | null
+          secrets_level?: string | null
+          sender_id?: string
+          status?: string
+          token?: string
+        }
+        Relationships: []
+      }
     }
     Views: {
       [_ in never]: never
