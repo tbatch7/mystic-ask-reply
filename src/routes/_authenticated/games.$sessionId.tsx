@@ -166,7 +166,7 @@ export function ResultsBlock({
   );
 }
 
-function PerQuestion({ answers }: { answers: { question_key: string; category: string; value: number; skipped: boolean }[] }) {
+function PerQuestion({ answers }: { answers: { question_key: string; category: string; value: number; skipped: boolean; text_answer?: string | null }[] }) {
   const map = new Map(answers.map((a) => [a.question_key, a]));
   return (
     <div className="mt-8 space-y-6">
@@ -184,6 +184,11 @@ function PerQuestion({ answers }: { answers: { question_key: string; category: s
                 return (
                   <li key={q.key} className="rounded-xl border border-border bg-card/40 p-4">
                     <div className="text-sm">{q.text}</div>
+                    {a?.text_answer && !a.skipped && (
+                      <blockquote className="mt-2 whitespace-pre-wrap rounded-md border-l-2 border-primary/60 bg-background/40 px-3 py-2 text-sm italic">
+                        "{a.text_answer}"
+                      </blockquote>
+                    )}
                     <div className="mt-2 flex items-center gap-2 text-xs">
                       {a?.skipped ? (
                         <span className="rounded-full bg-muted px-2 py-0.5 text-muted-foreground">Skipped</span>
